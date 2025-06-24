@@ -7,9 +7,36 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    // List posts, with optional search filter
+
+
+
+    public function ajaxStore(Request $request)
+{
+    $validated = $request->validate([
+        'title' => 'required|max:255',
+        'content' => 'required',
+    ]);
+
+    Post::create($validated);
+
+    return response()->json(['message' => 'Post created successfully!']);
+}
+    public function index(Request $request)
     {
-        $posts = Post::all();
+        $query = Post::query();
+
+        if ($request->has('search') && !empty($request->search)) {
+            $keyword = $request->search;
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', "%{$keyword}%")
+                  ->orWhere('content', 'like', "%{$keyword}%");
+            });
+        }
+
+        // You can paginate if needed, or use get() for all results
+        $posts = $query->paginate(10);
+
         return view('posts.index', compact('posts'));
     }
 
