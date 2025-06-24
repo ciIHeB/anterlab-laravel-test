@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FormController;
-
+use App\Http\Controllers\UserTaskController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,3 +21,4 @@ Route::get('/', function () {
 Route::resource('posts', PostController::class);
 Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
 Route::post('/form', [FormController::class, 'submitForm'])->name('form.submit');
+Route::get('/user/{id}/tasks', [UserTaskController::class, 'showTasks']);
