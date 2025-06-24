@@ -6,6 +6,8 @@
 </head>
 <body>
     <h2>Create Post (AJAX)</h2>
+    <a href="{{ route('posts.deleted') }}">View Deleted Posts</a>
+
 
     <form id="postForm">
         @csrf
