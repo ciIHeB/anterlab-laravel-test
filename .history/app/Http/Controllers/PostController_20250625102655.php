@@ -8,6 +8,20 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     // List posts, with optional search filter
+
+
+
+    public function ajaxStore(Request $request)
+{
+    $validated = $request->validate([
+        'title' => 'required|max:255',
+        'content' => 'required',
+    ]);
+
+    Post::create($validated);
+
+    return response()->json(['message' => 'Post created successfully!']);
+}
     public function index(Request $request)
     {
         $query = Post::query();
@@ -20,6 +34,7 @@ class PostController extends Controller
             });
         }
 
+        // You can paginate if needed, or use get() for all results
         $posts = $query->paginate(10);
 
         return view('posts.index', compact('posts'));
@@ -39,18 +54,6 @@ class PostController extends Controller
 
         Post::create($request->all());
         return redirect()->route('posts.index');
-    }
-
-    public function ajaxStore(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-        ]);
-
-        Post::create($validated);
-
-        return response()->json(['message' => 'Post created successfully!']);
     }
 
     public function show(Post $post)
@@ -74,25 +77,9 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    // Soft delete a post
     public function destroy(Post $post)
     {
-        $post->delete();  // This performs soft delete because Post uses SoftDeletes trait
-        return redirect()->route('posts.index')->with('success', 'Post soft deleted.');
-    }
-
-    // Show soft deleted posts
-    public function trashed()
-    {
-        $posts = Post::onlyTrashed()->paginate(10);
-        return view('posts.trashed', compact('posts'));
-    }
-
-    // Restore a soft deleted post
-    public function restore($id)
-    {
-        $post = Post::onlyTrashed()->findOrFail($id);
-        $post->restore();
-        return redirect()->route('posts.trashed')->with('success', 'Post restored successfully.');
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }

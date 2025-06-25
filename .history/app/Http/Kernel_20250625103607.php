@@ -47,7 +47,7 @@ class Kernel extends HttpKernel
     protected $commands =
     [
     Commands\SayHello::class,
-    ];
+];
 
 
     /**

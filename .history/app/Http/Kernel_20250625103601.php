@@ -44,10 +44,9 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
-    protected $commands =
-    [
+    protected $commands = [
     Commands\SayHello::class,
-    ];
+];
 
 
     /**
