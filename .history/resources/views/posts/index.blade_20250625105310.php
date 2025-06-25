@@ -33,14 +33,4 @@
                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cet article ?')">Supprimer</button>
                 </form>
             </div>
-        </div>
-    @endforeach
-
-    <!-- Pagination -->
-    <div class="mt-4">
-        {{ $posts->withQueryString()->links() }}
-    </div>
-</div>
-
-</body>
-</html>
+        </
